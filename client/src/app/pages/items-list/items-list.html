@@ -1,0 +1,67 @@
+<div class="premium-viewport" dir="rtl">
+  <main class="content-wrapper">
+    <header class="premium-header">
+      <div class="header-main">
+        <h1>Inventory<span class="accent-text">Pro</span></h1>
+        <button class="summary-nav-btn" routerLink="/summary">
+          📊 סיכום קנייה
+        </button>
+      </div>
+      <div class="live-counter">🛒 {{ cartItems.length }} מוצרים ברשימה</div>
+    </header>
+
+    <nav class="category-nav">
+      @for (cat of categories; track cat) {
+        <button (click)="filterByCategory(cat)" 
+                [class.active]="selectedCategory === cat" 
+                class="cat-btn">
+          {{ cat }}
+        </button>
+      }
+    </nav>
+
+    <section class="catalog-grid">
+      @for (prod of filteredCatalog; track prod.name) {
+        <div class="product-pill" (click)="addToCart(prod)">
+          <span class="prod-icon">{{ prod.icon }}</span>
+          <span class="prod-name">{{ prod.name }}</span>
+          <div class="add-plus">+</div>
+        </div>
+      }
+    </section>
+
+    <hr class="divider">
+
+    <div class="items-container">
+      <h2 class="section-subtitle">העגלה שלי:</h2>
+      <div class="items-grid">
+        @for (item of cartItems; track (item.Id || item.id || $index)) {
+          <div class="item-card-premium" [class.purchased]="(item.StatusId || item.statusId) === 2">
+            <div class="card-inner">
+              <div class="card-info">
+                <input type="checkbox" 
+                       class="premium-checkbox" 
+                       [checked]="(item.StatusId || item.statusId) === 2" 
+                       (change)="onToggleStatus(item)">
+                
+                <div class="text-data">
+                  <h3 class="item-title">{{ item.ItemName || item.itemName }}</h3>
+                  <p class="item-desc">{{ item.ItemDescription || item.itemDescription }}</p>
+                </div>
+              </div>
+              
+              <div class="actions">
+                <button class="p-edit" [routerLink]="['/edit-item', (item.Id || item.id)]">✏️</button>
+                <button class="p-delete" (click)="onDeleteItem(item.Id || item.id)">🗑️</button>
+              </div>
+            </div>
+          </div>
+        } @empty {
+          <div class="empty-state">
+            <p class="empty-msg">הרשימה ריקה. הגיע הזמן לקנות!</p>
+          </div>
+        }
+      </div>
+    </div>
+  </main>
+</div>

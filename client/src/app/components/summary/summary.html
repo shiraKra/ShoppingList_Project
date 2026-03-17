@@ -1,0 +1,48 @@
+<div class="premium-viewport" dir="rtl">
+  <main class="content-wrapper">
+    <header class="summary-header">
+      <h1>סיכום <span class="accent-text">קנייה</span></h1>
+      <button class="back-btn" routerLink="/items-list">→ חזרה לרשימה</button>
+    </header>
+
+    <section class="stats-card">
+      <div class="progress-info">
+        <span>אחוז ביצוע הקנייה:</span>
+        <span class="percent">{{ progressPercent }}%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-fill" [style.width.%]="progressPercent"></div>
+      </div>
+    </section>
+
+    <div class="summary-grid">
+      <div class="summary-section">
+        <h3>✅ מוצרים בסל ({{ purchasedItems.length }})</h3>
+        <div class="items-list-small">
+          @for (item of purchasedItems; track (item.Id || item.id)) {
+            <div class="summary-item success">
+              <span>{{ item.ItemName || item.itemName }}</span>
+              <span class="category-tag">{{ item.CategoryName || item.categoryName }}</span>
+            </div>
+          } @empty {
+            <p class="empty-msg">עדיין לא אספת כלום...</p>
+          }
+        </div>
+      </div>
+
+      <div class="summary-section">
+        <h3>❌ מוצרים שפספסת ({{ missingItems.length }})</h3>
+        <div class="items-list-small">
+          @for (item of missingItems; track (item.Id || item.id)) {
+            <div class="summary-item danger">
+              <span>{{ item.ItemName || item.itemName }}</span>
+              <span class="category-tag">{{ item.CategoryName || item.categoryName }}</span>
+            </div>
+          } @empty {
+            <p class="empty-msg">כל הכבוד! לא שכחת כלום.</p>
+          }
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
